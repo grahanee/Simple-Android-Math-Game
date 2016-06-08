@@ -1,0 +1,34 @@
+package com.example.quizgame;
+
+import android.app.Activity;
+import android.os.Bundle;
+import android.util.Log;
+import android.widget.VideoView;
+import android.net.Uri;
+
+
+public class video extends Activity {
+	
+	
+	private VideoView videodisplay;
+	
+	@Override
+	protected void onCreate(Bundle savedInstanceState) {
+		super.onCreate(savedInstanceState);
+		setContentView(R.layout.video);
+		 Log.i("video", "this is video Activity running");
+		 
+		
+		 
+		 videodisplay = (VideoView) findViewById (R.id.videoView1);
+		 
+		 String urlpath = "android.resource://" + getPackageName() + "/" + R.raw.countdown;
+		 
+		 videodisplay.setVideoURI(Uri.parse(urlpath));
+		 videodisplay.start();
+		 
+		 
+	
+	}
+
+}
