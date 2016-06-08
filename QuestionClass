@@ -1,0 +1,53 @@
+package com.example.quizgame;
+
+
+
+import java.util.ArrayList;
+
+
+
+
+
+
+public class Question {
+	
+	
+
+	public String question;
+	public ArrayList<String> answer;
+	int answerIndex;
+	
+	
+	
+
+	public Question(String question, ArrayList<String> Answer, int answerIndex) {
+		
+		this.question = question;
+		this.answer = Answer;
+		this.answerIndex = answerIndex;
+		
+		
+	}
+	
+	public int getAnswerIndex()
+	{
+		return answerIndex;
+		
+	}
+	
+	
+	
+	public String getquestion(){
+		return question;
+		
+		
+	}
+	
+	public ArrayList<String> getanswer(){
+		return answer;
+		
+		
+	}
+		
+
+}
