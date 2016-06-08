@@ -1,0 +1,185 @@
+package com.example.quizgame;
+
+
+import android.os.Bundle;
+import android.app.Activity;
+import android.content.Intent;
+import android.widget.TextView;
+import android.view.View.OnClickListener;
+import android.view.View;
+import android.widget.Button;
+import android.widget.ArrayAdapter;
+import android.widget.Toast;
+import android.util.Log;
+import android.media.MediaPlayer;
+import java.util.ArrayList;
+import java.util.List;
+
+public class play extends Activity  {
+	
+	private Question currentQuestion;
+	private int currentQuestionIndex;
+	private ArrayList<Button> questionButton;
+	private TextView questionstextview;
+	private TextView questionnumber;	
+	public static TextView displayscore;
+	public static int score;
+	private List<Question> QuestionList;
+    public static int totalanswer;
+	public static int correctanswer;
+    
+	 @Override
+	    protected void onCreate(Bundle savedInstanceState) {
+	        super.onCreate(savedInstanceState);
+	        setContentView(R.layout.play);
+	        Log.i("playclass", "this is play class running");
+	        
+	        questionButton = new ArrayList<Button>();   
+	        questionButton.add((Button) findViewById (R.id.answerbutton1));
+	        questionButton.add((Button) findViewById (R.id.answerbutton2));
+	        questionButton.add((Button) findViewById (R.id.answerbutton3));
+	        questionButton.add((Button) findViewById (R.id.answerbutton4));
+	        currentQuestion = null;
+	        currentQuestionIndex = 0;
+	        	       
+	        QuestionList = new ArrayList<Question>();
+	        ArrayList <String> answer = new ArrayList<String>();
+	              
+	        answer.add("8");
+	        answer.add("9");
+	        answer.add("3");
+	        answer.add("1");
+	        QuestionList.add(new Question("what is 4+4", answer, 0));
+
+	        ArrayList <String> answer1 = new ArrayList<String>();
+	        answer1.add("17");
+	        answer1.add("20");
+	        answer1.add("15");
+	        answer1.add("14");
+	        QuestionList.add(new Question("what is 7+8?", answer1, 3));
+
+	       ArrayList <String> answer2 = new ArrayList<String>();
+	        answer2.add("20");
+	        answer2.add("30");
+	        answer2.add("19");
+	        answer2.add("34");
+	        QuestionList.add(new Question("what is 10+10?", answer2, 0));
+
+	        ArrayList <String> answer3 = new ArrayList<String>();
+	        answer3.add("12");
+	        answer3.add("11");
+	        answer3.add("13");
+	        answer3.add("14");
+	        QuestionList.add(new Question("what is 6+6?", answer3, 0));
+
+	        ArrayList <String> answer4 = new ArrayList<String>();
+	        answer4.add("6");
+	        answer4.add("5");
+	        answer4.add("4");
+	        answer4.add("7");
+	        QuestionList.add(new Question("what is 4+3?", answer4, 3));
+
+	        ArrayList <String> answer5 = new ArrayList<String>();
+	        answer5.add("7");
+	        answer5.add("9");
+	        answer5.add("10");
+	        answer5.add("11");
+	        QuestionList.add(new Question("what is 3+7?", answer5, 2));
+	        
+	        
+	        
+	        
+	        
+	        
+	        
+	        
+	        questionstextview = (TextView) findViewById (R.id.questionstextview);	        
+	        questionnumber = (TextView) findViewById (R.id.questionnumber);        
+	        displayscore = (TextView) findViewById (R.id.displayscore);
+	    	displayscore.setText(Integer.toString(score));
+	    
+	        StartTrivia();
+	    }
+	public void ButtonPress (View answerButton){
+		
+		MediaPlayer soundfx = MediaPlayer.create(getApplicationContext(), R.raw.click);
+			
+		soundfx.start();
+	       
+		for (int i=0; i< questionButton.size(); i++)
+		{	
+		
+			
+			if (questionButton.get(i) ==answerButton)
+				
+			{	
+				
+			 if (i==currentQuestion.getAnswerIndex())
+				
+		      {	
+				 score+=5;
+				 displayscore.setText(Integer.toString(score));
+					
+				 
+				 correctanswer++;
+				 totalanswer++;
+				
+			
+				Toast.makeText(getApplicationContext(), "Correct!", Toast.LENGTH_SHORT).show();
+						
+			}
+		     
+			else{
+				
+				totalanswer++;
+				
+				Toast.makeText(getApplicationContext(), "Incorrect!", Toast.LENGTH_SHORT).show();
+				 Log.i("playclass", "after incorrect toast");
+			}
+				
+				currentQuestionIndex++;
+				
+				
+				 Log.i("playclass", "after currentQuestionIndex++; ");
+				
+				if (currentQuestionIndex < QuestionList.size()){
+					
+					Log.i("playclass", "after currentQuestionIndex < QuestionList.size() ");
+					StartTrivia();
+					Log.i("playclass", "after StartTrivia in if statement ");
+				}
+	 
+				else{
+					
+					Intent result = new Intent (this, finalscreen.class);
+					startActivity(result);
+					Log.i("playclass", "after IntentResult ");
+				}
+				break;
+			 }
+			 
+		}	
+	}
+	
+	public void StartTrivia(){
+		
+		Log.i("playclass", "running StartTrivia() " + currentQuestionIndex); 
+        
+        currentQuestion = QuestionList.get(currentQuestionIndex); //retrieve current question index
+      
+		questionstextview.setText(currentQuestion.getquestion()); // to set text in questiontextview
+	
+	    questionnumber.setText(Integer.toString(currentQuestionIndex+0)); //to be display as question number
+	 
+		for (int i = 0; i < questionButton.size(); i++)
+		 
+		 { 
+			
+			 String ans = currentQuestion.getanswer().get(i); 
+			 questionButton.get(i).setText(ans);
+			
+		 }
+		 
+		}
+
+}
